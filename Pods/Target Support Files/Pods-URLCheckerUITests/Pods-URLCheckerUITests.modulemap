@@ -1,0 +1,6 @@
+framework module Pods_URLCheckerUITests {
+  umbrella header "Pods-URLCheckerUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
