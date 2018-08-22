@@ -10,31 +10,22 @@ import Foundation
 import RealmSwift
 import Realm
 
+@objc enum ValidationsState: Int {
+    case valid
+    case invalid
+    case processing
+}
+
 class UrlModel: Object {
     
     @objc dynamic var ID = UUID().uuidString
     @objc dynamic var address: String = "" // url
-    @objc dynamic var isValid: Bool = false // is url valid or not
-    @objc dynamic var time: Float = 0
+    @objc dynamic var isValid: ValidationsState = .processing
+    @objc dynamic var time: Double = 0
 
-    init(url: String) {
+    convenience init(url: String) {
+        self.init()
         address = url
-        super.init()
-    }
-    
-    required init() {
-//        fatalError("init() has not been implemented")
-        super.init()
-    }
-    
-    required init(realm: RLMRealm, schema: RLMObjectSchema) {
-//        fatalError("init(realm:schema:) has not been implemented")
-        super.init(realm: realm, schema: schema)
-    }
-    
-    required init(value: Any, schema: RLMSchema) {
-//        fatalError("init(value:schema:) has not been implemented")
-        super.init(value: value, schema: schema)
     }
     
     override static func primaryKey() -> String? {

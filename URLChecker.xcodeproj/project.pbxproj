@@ -10,6 +10,7 @@
 		31D0CB59A1CBDB7CA924A8CD /* Pods_URLChecker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08CC463DF9CC7BBA8353E42D /* Pods_URLChecker.framework */; };
 		E0FE20F1F8613CEDC482736F /* Pods_URLCheckerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1BC932F19FC1DBF7F0EC73B /* Pods_URLCheckerTests.framework */; };
 		F7D75BF1F0D2A4BD8BCC4A93 /* Pods_URLCheckerUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D68BE2418D9E98451DEF9E3 /* Pods_URLCheckerUITests.framework */; };
+		F93C2045212C84C9006E46E8 /* UrlViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93C2044212C84C9006E46E8 /* UrlViewModel.swift */; };
 		F97183FF21249D0E0063B41E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97183FE21249D0E0063B41E /* AppDelegate.swift */; };
 		F971840421249D0E0063B41E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F971840221249D0E0063B41E /* Main.storyboard */; };
 		F971840621249D0F0063B41E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F971840521249D0F0063B41E /* Assets.xcassets */; };
@@ -18,16 +19,12 @@
 		F971841F21249D0F0063B41E /* URLCheckerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971841E21249D0F0063B41E /* URLCheckerUITests.swift */; };
 		F971842D2124A1840063B41E /* UrlsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971842C2124A1840063B41E /* UrlsViewController.swift */; };
 		F97184302124A3CE0063B41E /* UrlTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971842E2124A3CE0063B41E /* UrlTableViewCell.swift */; };
-		F97184312124A3CE0063B41E /* UrlTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F971842F2124A3CE0063B41E /* UrlTableViewCell.xib */; };
 		F97184332124A3FA0063B41E /* UrlModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97184322124A3FA0063B41E /* UrlModel.swift */; };
 		F971843A212563220063B41E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9718439212563220063B41E /* NetworkManager.swift */; };
 		F971843D212568050063B41E /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971843C212568050063B41E /* DBManager.swift */; };
 		F97184412125911C0063B41E /* SortManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97184402125911C0063B41E /* SortManager.swift */; };
 		F9718443212599B50063B41E /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9718442212599B50063B41E /* Validator.swift */; };
-		F97184472125BB960063B41E /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97184462125BB960063B41E /* SearchManager.swift */; };
 		F97184492125D98F0063B41E /* SortViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97184482125D98F0063B41E /* SortViewController.swift */; };
-		F971844E2125E9140063B41E /* SortTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971844C2125E9140063B41E /* SortTableViewCell.swift */; };
-		F971844F2125E9140063B41E /* SortTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F971844D2125E9140063B41E /* SortTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +53,7 @@
 		DB3DF110E805949D9E5D0893 /* Pods-URLCheckerUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLCheckerUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-URLCheckerUITests/Pods-URLCheckerUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		DF8FE37E24106D85DEF661F6 /* Pods-URLChecker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLChecker.debug.xcconfig"; path = "Pods/Target Support Files/Pods-URLChecker/Pods-URLChecker.debug.xcconfig"; sourceTree = "<group>"; };
 		E69B3BA9A3997BBEC3EA3B2D /* Pods-URLCheckerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLCheckerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-URLCheckerTests/Pods-URLCheckerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F93C2044212C84C9006E46E8 /* UrlViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlViewModel.swift; sourceTree = "<group>"; };
 		F97183FB21249D0E0063B41E /* URLChecker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URLChecker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F97183FE21249D0E0063B41E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F971840321249D0E0063B41E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -70,16 +68,12 @@
 		F971842021249D0F0063B41E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F971842C2124A1840063B41E /* UrlsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlsViewController.swift; sourceTree = "<group>"; };
 		F971842E2124A3CE0063B41E /* UrlTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlTableViewCell.swift; sourceTree = "<group>"; };
-		F971842F2124A3CE0063B41E /* UrlTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UrlTableViewCell.xib; sourceTree = "<group>"; };
 		F97184322124A3FA0063B41E /* UrlModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlModel.swift; sourceTree = "<group>"; };
 		F9718439212563220063B41E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F971843C212568050063B41E /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		F97184402125911C0063B41E /* SortManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortManager.swift; sourceTree = "<group>"; };
 		F9718442212599B50063B41E /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
-		F97184462125BB960063B41E /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		F97184482125D98F0063B41E /* SortViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortViewController.swift; sourceTree = "<group>"; };
-		F971844C2125E9140063B41E /* SortTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortTableViewCell.swift; sourceTree = "<group>"; };
-		F971844D2125E9140063B41E /* SortTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SortTableViewCell.xib; sourceTree = "<group>"; };
 		FC56895B07219C74F3FE17FC /* Pods-URLChecker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-URLChecker.release.xcconfig"; path = "Pods/Target Support Files/Pods-URLChecker/Pods-URLChecker.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,12 +186,10 @@
 			isa = PBXGroup;
 			children = (
 				F971842C2124A1840063B41E /* UrlsViewController.swift */,
-				F971842E2124A3CE0063B41E /* UrlTableViewCell.swift */,
+				F93C2044212C84C9006E46E8 /* UrlViewModel.swift */,
 				F97184322124A3FA0063B41E /* UrlModel.swift */,
+				F971842E2124A3CE0063B41E /* UrlTableViewCell.swift */,
 				F97184482125D98F0063B41E /* SortViewController.swift */,
-				F971842F2124A3CE0063B41E /* UrlTableViewCell.xib */,
-				F971844C2125E9140063B41E /* SortTableViewCell.swift */,
-				F971844D2125E9140063B41E /* SortTableViewCell.xib */,
 			);
 			path = Url;
 			sourceTree = "<group>";
@@ -209,7 +201,6 @@
 				F971843C212568050063B41E /* DBManager.swift */,
 				F9718442212599B50063B41E /* Validator.swift */,
 				F97184402125911C0063B41E /* SortManager.swift */,
-				F97184462125BB960063B41E /* SearchManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -324,9 +315,7 @@
 			files = (
 				F971840921249D0F0063B41E /* LaunchScreen.storyboard in Resources */,
 				F971840621249D0F0063B41E /* Assets.xcassets in Resources */,
-				F971844F2125E9140063B41E /* SortTableViewCell.xib in Resources */,
 				F971840421249D0E0063B41E /* Main.storyboard in Resources */,
-				F97184312124A3CE0063B41E /* UrlTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -434,9 +423,8 @@
 				F97184332124A3FA0063B41E /* UrlModel.swift in Sources */,
 				F971842D2124A1840063B41E /* UrlsViewController.swift in Sources */,
 				F97184492125D98F0063B41E /* SortViewController.swift in Sources */,
+				F93C2045212C84C9006E46E8 /* UrlViewModel.swift in Sources */,
 				F97184412125911C0063B41E /* SortManager.swift in Sources */,
-				F97184472125BB960063B41E /* SearchManager.swift in Sources */,
-				F971844E2125E9140063B41E /* SortTableViewCell.swift in Sources */,
 				F971843D212568050063B41E /* DBManager.swift in Sources */,
 				F97183FF21249D0E0063B41E /* AppDelegate.swift in Sources */,
 			);

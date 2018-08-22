@@ -31,10 +31,10 @@ class DBManager {
         return model
     }
     
-    static func updateModelWithValidation(state: Bool, model: UrlModel) {
+    static func updateModelWithValidation(state: Bool, andTime time: TimeInterval , model: UrlModel) {
         try! realm.write {
-            model.isValid = state
-//            model.time = time
+            model.isValid = state ? .valid : .invalid
+            model.time = time
         }
     }
     

@@ -10,20 +10,15 @@ import Foundation
 
 class Validator {
     
-    private static var sharedValidator : Validator = {
-        let shared = Validator()
-        return shared
-    }()
+    static var sharedValidator = Validator()
+    private init() {}
     
-    // shared singleton Validator
-    static func shared() -> Validator {
-        return sharedValidator
-    }
-    
-    func checkValidation(url: UrlModel, completion: @escaping (Bool) -> ()) {
-        NetworkManager.shared().request(url: url.address) { (state) in
+    func checkValidation(url: UrlModel, completion: @escaping (Bool, TimeInterval) -> ()) {
+        let startDate = Date()
+        NetworkManager.sharedManager.request(url: url.address) { (state) in
             DispatchQueue.main.async {
-                completion(state)
+                let requestTime = Date().timeIntervalSince(startDate)
+                completion(state, requestTime)
             }
         }
     }

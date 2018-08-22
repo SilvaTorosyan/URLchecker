@@ -8,37 +8,15 @@
 
 import UIKit
 
-enum CellState {
-    case valid
-    case invalid
-    case processing
-}
-
 class UrlTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var urlLalbel: UILabel!
-    @IBOutlet weak var validation: UIView!
+    @IBOutlet weak var validationView: UIView!
     
-    var state: CellState = .processing {
-        didSet {
-            switch state {
-            case .valid:
-                validation.backgroundColor = .green
-                activityIndicator.stopAnimating()
-            case .invalid:
-                validation.backgroundColor = .red
-                activityIndicator.stopAnimating()
-            case .processing:
-                validation.backgroundColor = .clear
-                activityIndicator.startAnimating()
-            }
-        }
-    }
-        
+    lazy var activityIndicator = UIActivityIndicatorView()
+    
     private var urlModel : UrlModel! {
         didSet {
-            urlLalbel.text = urlModel.address
+            self.textLabel?.text = urlModel.address
             checkValidation(state: urlModel.isValid)
         }
     }
@@ -49,8 +27,12 @@ class UrlTableViewCell: UITableViewCell {
     }
     
     private func configureUI() {
-        validation.layer.cornerRadius = validation.frame.height/2
-        validation.backgroundColor = .clear
+        activityIndicator.color = .black
+        self.accessoryView = activityIndicator
+        activityIndicator.startAnimating()
+        
+        validationView.layer.cornerRadius = validationView.frame.height/2
+        validationView.backgroundColor = .clear
         activityIndicator.hidesWhenStopped = true
     }
     
@@ -60,7 +42,17 @@ class UrlTableViewCell: UITableViewCell {
     }
     
     // set the correct color for validation state
-    private func checkValidation(state : Bool) {
-        self.state = state ? .valid : .invalid
+    private func checkValidation(state : ValidationsState) {
+        switch state {
+        case .valid:
+            validationView.backgroundColor = .green
+            activityIndicator.stopAnimating()
+        case .invalid:
+            validationView.backgroundColor = .red
+            activityIndicator.stopAnimating()
+        case .processing:
+            validationView.backgroundColor = .clear
+            activityIndicator.startAnimating()
+        }
     }
 }

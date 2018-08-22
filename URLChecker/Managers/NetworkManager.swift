@@ -10,15 +10,8 @@ import Foundation
 
 class NetworkManager {
 
-    private static var sharedManager : NetworkManager = {
-        let shared = NetworkManager()
-        return shared
-    }()
-    
-    // shared singleton manager
-    static func shared() -> NetworkManager {
-        return sharedManager
-    }
+    static var sharedManager = NetworkManager()
+    private init() {}
     
     func request(url: String, completion: @escaping (Bool) -> Void ) {
         

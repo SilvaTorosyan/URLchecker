@@ -17,13 +17,14 @@ enum SortType: String {
     case nameAscending = "Sort by name ascending"
     case nameDescending = "Sort by name descending"
     case reachability = "Sort by reachability"
-    case time = "Sort by time"
+    case timeAscending = "Sort by time ascending"
+    case timeDescending = "Sort by time descending"
     case none = "Not Sort"
 }
 
 class SortViewController: UIViewController {
     
-    let cases = [SortType.nameAscending, SortType.nameDescending, SortType.reachability, SortType.time, SortType.none]
+    let cases = [SortType.nameAscending, SortType.nameDescending, SortType.reachability, SortType.timeAscending, SortType.timeDescending, SortType.none]
 
     @IBOutlet weak var tableView: UITableView!
     weak var delegate: SortViewControllerProtocol?
@@ -33,7 +34,6 @@ class SortViewController: UIViewController {
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "SortTableViewCell", bundle: nil), forCellReuseIdentifier: "sortCellID")
     }
 }
 
@@ -52,9 +52,9 @@ extension SortViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "sortCellID") as! SortTableViewCell
-        cell.descriptionLabel.text = cases[indexPath.row].rawValue
-        return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "typeCell")
+        cell?.textLabel?.text = cases[indexPath.row].rawValue
+        return cell!
     }
     
 }

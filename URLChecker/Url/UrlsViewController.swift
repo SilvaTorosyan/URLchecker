@@ -12,9 +12,7 @@ import RealmSwift
 
 class UrlsViewController: UIViewController {
     
-    private let cellIdentifier = "cellID"
-    
-    @IBOutlet weak var search: UISearchBar!
+    let viewModel = UrlViewModel()
     
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var urlsTableView: UITableView!
@@ -22,83 +20,67 @@ class UrlsViewController: UIViewController {
     @IBOutlet weak var sortButton: UIButton!
     @IBOutlet weak var reloadButton: UIButton!
     
-    var results: Results<UrlModel>?
-    var resultsArray = Array<UrlModel>()
+    lazy var messageAlert = UIAlertController()
+    lazy var errorAlert = UIAlertController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureUI()
-        configureData()
+        viewModel.configureData()
+        createAlertController()
         
         searchBar.delegate = self
         searchBar.showsCancelButton = true
         
         urlsTableView.delegate = self
         urlsTableView.dataSource = self
-        urlsTableView.register(UINib(nibName: "UrlTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
         urlsTableView.estimatedRowHeight = 100
-    }
-    
-    func configureData() {
-        results = DBManager.getAllObjects()
-        resultsArray = SortManager.shared().sortBy(type: SortManager.shared().sortedType, models: results!)
-    }
-    
-    func reloadData() {
-        results = DBManager.getAllObjects()
-        for url in results! {
-            Validator.shared().checkValidation(url: url, completion: { state in
-                DBManager.updateModelWithValidation(state: state, model: url)
-            })
-        }
-        resultsArray = SortManager.shared().sortBy(type: SortManager.shared().sortedType, models: results!)
     }
     
     func configureUI() {
         addButton.layer.cornerRadius = 20
         sortButton.layer.cornerRadius = 20
-        
-//        let search = UISearchController(searchResultsController: nil)
-//        search.searchResultsUpdater = self
-//        search.obscuresBackgroundDuringPresentation = false
-//        search.searchBar.placeholder = "Type something here to search"
-//        navigationItem.searchController = search
     }
     
     func createAlertController() {
-        let alertController = UIAlertController(title: "Add New URL", message: "", preferredStyle: .alert)
-        alertController.addTextField { (textField : UITextField!) -> Void in
+        messageAlert = UIAlertController(title: "Add New URL", message: "", preferredStyle: .alert)
+        messageAlert.addTextField { (textField : UITextField!) -> Void in
             textField.text = "https://"
         }
         let saveAction = UIAlertAction(title: "Save", style: .default, handler: { alert -> Void in
-            let textField = alertController.textFields![0] as UITextField
-            self.addNewUrl(url: textField.text!)
+            let textField = self.messageAlert.textFields?.first
+            self.addNewUrl(url: textField!.text!)
+            textField!.text = "https://"
         })
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action : UIAlertAction!) -> Void in})
-        
-        alertController.addAction(saveAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true, completion: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (action : UIAlertAction!) -> Void in
+            let textField = self.messageAlert.textFields?.first
+            textField!.text = "https://"
+        })
+        messageAlert.addAction(saveAction)
+        messageAlert.addAction(cancelAction)
     }
     
-    @IBAction func reloadAction(_ sender: Any) {
-        reloadData()
-        urlsTableView.reloadData()
-    }
-    
-    @IBAction func addAction(_ sender: Any) {
-        createAlertController()
+    func createErrorAlert() {
+        errorAlert = UIAlertController(title: "Can not delete", message: "", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "ok", style: .default, handler: {alert -> Void in})
+        errorAlert.addAction(okAction)
     }
     
     func addNewUrl(url: String) {
-        let model = DBManager.createModelFrom(url: url)
-        Validator.shared().checkValidation(url: model, completion: { state in
-            DBManager.updateModelWithValidation(state: state, model: model)
-            self.configureData()
+        viewModel.addNewUrlModel(url: url) {
             self.urlsTableView.reloadData()
+        }
+    }
+    
+    @IBAction func reloadAction(_ sender: Any) {
+        viewModel.reloadData(completion: {index in
+            self.urlsTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
         })
+    }
+    
+    @IBAction func addAction(_ sender: Any) {
+        self.present(messageAlert, animated: true, completion: nil)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -112,8 +94,9 @@ class UrlsViewController: UIViewController {
 extension UrlsViewController : SortViewControllerProtocol {
     
     func didSelectSortType(type: SortType) {
-        resultsArray = SortManager.shared().sortBy(type: type, models: results!)
-        urlsTableView.reloadData()
+        viewModel.sortByType(type: type) { () in
+            self.urlsTableView.reloadData()
+        }
     }
 }
 
@@ -125,9 +108,13 @@ extension UrlsViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            DBManager.deleteModel(model: self.resultsArray.remove(at: indexPath.row))
-            self.urlsTableView.deleteRows(at: [indexPath], with: .none)
-            
+            if viewModel.dataSource[indexPath.row].isValid == .processing {
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+            else {
+                DBManager.deleteModel(model: viewModel.dataSource.remove(at: indexPath.row))
+                self.urlsTableView.deleteRows(at: [indexPath], with: .none)
+            }
         }
     }
 }
@@ -139,12 +126,12 @@ extension UrlsViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.resultsArray.count
+        return viewModel.dataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell =  self.urlsTableView.dequeueReusableCell(withIdentifier: cellIdentifier) as! UrlTableViewCell
-        cell.fromUrlModel(model: self.resultsArray[indexPath.row])
+        let cell =  self.urlsTableView.dequeueReusableCell(withIdentifier: "cellID") as! UrlTableViewCell
+        cell.fromUrlModel(model: viewModel.dataSource[indexPath.row])
         return cell
     }
 }
@@ -154,21 +141,13 @@ extension UrlsViewController : UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         self.searchBar.resignFirstResponder()
         searchBar.text = ""
-        configureData()
+        viewModel.configureData()
         urlsTableView.reloadData()
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        SearchManager.shared().searchWith(text: searchBar.text!)
-//        searchBar.text = ""
-//        self.searchBar.resignFirstResponder()
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        resultsArray = SearchManager.shared().searchWith(text: searchText, inArray: resultsArray)
-        urlsTableView.reloadData()
+        viewModel.serachWithText(text: searchText) {
+            self.urlsTableView.reloadData()
+        }
     }
 }
-
-
-

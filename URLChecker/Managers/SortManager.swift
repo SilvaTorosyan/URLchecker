@@ -13,17 +13,10 @@ class SortManager {
     
     var sortedType: SortType = .none
     
-    private static var sharedManager : SortManager = {
-        let shared = SortManager()
-        return shared
-    }()
+    static var sharedManager = SortManager()
+    private init(){}
     
-    // shared singleton manager
-    static func shared() -> SortManager {
-        return sharedManager
-    }
-    
-    func sortBy(type: SortType, models: Results<UrlModel>) -> [UrlModel] {
+    func sortBy(type: SortType, models: [UrlModel]) -> [UrlModel] {
         self.sortedType = type
         switch type {
         case .nameAscending:
@@ -31,11 +24,13 @@ class SortManager {
         case .nameDescending:
             return models.sorted { $0.address > $1.address }
         case .reachability:
-            return models.sorted { $0.isValid && !$1.isValid }
-        case .time:
+            return models.sorted { $0.isValid == .valid ? true : false && !($1.isValid == .valid ? true : false) }
+        case .timeAscending:
             return models.sorted { $0.time < $1.time }
+        case .timeDescending:
+            return models.sorted { $0.time > $1.time }
         case .none:
-            return Array(models)
+            return models
         }
     }
 }
